@@ -8,7 +8,7 @@ describe('POST /user', function() {
         request(app)
         .post('/api/users/signup')
         .set('Accept', 'application/json')
-        .send({ email: 'jeremie@gmail.com', pseudo: "Test", password: "test"})
+        .send({ email: 'jeremie@gmail.com', pseudo: "Test", password: "Haroc76240"})
         .expect(200, { response: 'Votre compte à bien été enregistré.' }, done);
     });
 
@@ -16,14 +16,18 @@ describe('POST /user', function() {
         request(app)
         .post('/api/users/signup')
         .set('Accept', 'application/json')
-        .send({ email: 'jeremie@gmail.com', pseudo: "Test"})
-        .expect(400, { response: 'Un des champs est manquant' }, done);
+        .send({ email: 'jeremie@gmail.com', pseudo: "Test", password: "Haroc76240"})
+        .expect(400, { response: "L'email à déjà été utilisée !" }, done);
     });
+
+});
+
+describe('DELETE /user', function() {
     it('responds with json', function(done) {
         request(app)
         .post('/api/users/signup')
         .set('Accept', 'application/json')
-        .send({ email: 'jeremiegmail.com', pseudo: "Test", password: "test"})
-        .expect(400, { response: 'Votre email ne correspond pas au format d\'un email' }, done);
+        .send({ email: 'jeremie@gmail.com', pseudo: "Test", password: "Haroc76240"})
+        .expect(201, { response: 'Votre compte à bien été supprimé.' }, done);
     });
 });
