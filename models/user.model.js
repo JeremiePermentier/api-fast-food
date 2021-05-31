@@ -14,13 +14,13 @@ User.create = (newUser, result) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
-            return;
+            return
         }
 
         console.log("Created customer : ", { id: res.insertId, ...newUser });
         result(null, { id: res.insertId, ...newUser });
     });
-}
+};
 
 User.findByEmail = (userEmail, result) => {
     sql.query(`SELECT * FROM Users WHERE email="${userEmail}"`, (err, res) => {
@@ -31,13 +31,46 @@ User.findByEmail = (userEmail, result) => {
         }
 
         if (res.length) {
-            console.log("Found user : ", res[0].email);
-            result(null, res[0].email);
-            return;
+            console.log("Found user : ", res[0]);
+            result(null, res[0]);
+            return
         }
 
         result({ kind: "not found" }, null );
     })
+};
+
+User.selectUser = (id, result) => {
+    sql.query(`SELECT * FROM Users WHERE idUsers = ${id}`, (err, res) => {
+        if (err) {
+            result(err, null)
+            return
+        }
+
+        result(null, res)
+    })
 }
+
+User.selectAllUser = (result) => {
+    sql.query(`SELECT * FROM Users`, (err, res) => {
+        if (err) {
+            result(err, null)
+        }
+
+        result(null, res)
+    })
+}
+
+User.delUser = (id, result) => {
+    sql.query(`DELETE FROM Users WHERE idUsers = ${id}`, (err, res) => {
+        if (err) {
+            console.log("error : ", err);
+            result(err, null);
+            return
+        }
+
+        result(null, res)
+    })
+};
 
 module.exports = User;
